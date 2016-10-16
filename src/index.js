@@ -27,36 +27,55 @@ var test = function(data) {
     },
     convertSubRouteRedable = function(value2) {
         var subRoute = {};
-        subRoute.buses = _.map(value2.routes, convertToBus);
-        subRoute.subDistances = convertToKm(value2.distance);
-        subRoute.from = convertToPlace(value2.from);
-        subRoute.to = convertToPlace(value2.to);
-        subRoute.innerBusStops = value2.innerBusStops;
-        // distanceTime.find(value2.innerBusStops,function(location){
-        //   // console.log(stringify(value2.innerBusStops));
-        //   // console.log(+"test -- >",location);
-        //   // console.log("\n\n\n\n\n");
-        //   ubRoute.timeData = location;
-        //})
+        //subRoute.buses = _.map(value2.routes, convertToBus);
+        // subRoute.subDistances = convertToKm(value2.distance);
+        // subRoute.from = convertToPlace(value2.from);
+        // subRoute.to = convertToPlace(value2.to);
+        //subRoute.innerBusStops = value2.innerBusStops;
+        subRoute.xxx = distanceTime.find(value2.innerBusStops,function(location){
+           // console.log(stringify(value2.innerBusStops));
+            console.log("test -- >",location);
+           // console.log("\n\n\n\n\n");
+            subRoute.timeData = location;
+        });
+
+        console.log("test1 -- >");
+
+        setTimeout(myFunction, 100000);
+
+        console.log("test2 -- >");
 
         return subRoute;
     },
     convertToReadabelJson = function(value) {
         var returnArray = {};
-        returnArray.from = convertToPlace(value.from);
-        returnArray.to = convertToPlace(value.to);
-        returnArray.totalDistance = convertToKm(value.distance);
-        returnArray.changePoints = _.map(value.changes, convertToPlace);
+        // returnArray.from = convertToPlace(value.from);
+        // returnArray.to = convertToPlace(value.to);
+        // returnArray.totalDistance = convertToKm(value.distance);
+        // returnArray.changePoints = _.map(value.changes, convertToPlace);
         returnArray.subRouts = _.map(value.routes, convertSubRouteRedable);
+
+
+
         return returnArray;
     };
+
+
+    function myFunction() {
+    //alert('Hello');
+}
+
 
 
 
 //console.log("Test\n\n\n\n");
 var temp2 = _.map(testRought, convertToReadabelJson);
-console.log(stringify(temp2[0]));
+console.log(stringify(temp2));
 
+//sleep(6000).then();
+
+console.log(stringify(temp2));
+setTimeout(function(){ console.log(stringify(temp2)); }, 7000);
 
 //var location = [({'name':'Borella','lat':6.91474,'lon':79.8776}), ({'name':'Horton Place - Baseline Junction','lat':6.91126,'lon':79.8775}),({'name':'Borella Cemetery Junction','lat':6.90859,'lon':79.8773}),({'name':'Sarana Road','lat':6.90558,'lon':79.8735}),({'name':'Maitland Place','lat':6.9029,'lon':79.8705}),({'name':'Campus (Arts Faculty)','lat':6.90258,'lon':79.8622}),({'name':'Thunmulla','lat':6.89619,'lon':79.8603})];
 

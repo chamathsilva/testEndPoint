@@ -1,53 +1,69 @@
 
 /* API Key to access the distance matrix API */
-var apiKey = 'AIzaSyB7Rfs9vhKZ64ac6a-OmQGgGHxGviWyWW0';
+var apiKey = 'AIzaSyDUBe3lL1AIDY9bc_dbrq2TD23yX_xzMYA';
+
 
 module.exports = {
 
   /* Function to calculate distance and time between two given nodes */
   find: function (location,returnData) {
-    var dist = 0;
-    var time = 0;
 
-    var loc_string = "";
 
-    /* Construct the url for the particular API call*/
-    for (var i in location){
-
-      if (i == 0){
-        loc_string = location[i].lat + "," + location[i].lon;    }
-
-      else{
-        loc_string = loc_string + "|" + location[i].lat + "," + location[i].lon;
-      }
-    }
-    var url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + loc_string + "&destinations=" + loc_string + "&key=" + apiKey;
-
+    var loc_start = "";
+    var loc_end = "";
 
     var requestify = require('requestify');
 
-    /* Call upon the url to get the distances and times between all given points asynchronously */
-    requestify.get(url)
-      .then(function(response) {
+    var promise = require('promise');
 
-          // Get the response body (JSON parsed or jQuery object for XMLs)
-          var result = response.getBody();
+    var callArray = [];
 
+    for (var i = 0; i < location.length - 1; i++){
+      loc_start = location[i].lat + "," + location[i].lon;    
+      loc_end = location[i+1].lat + "," + location[i+1].lon;
 
-          /* Calculate the distance and time between the first and last point */
-          for (var i = 0; i < result.rows.length - 1; i++){
+      var url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + loc_start + "&destinations=" + loc_end + "&key=" + apiKey;
 
-            dist += result.rows[i].elements[i+1].distance.value;
-            time += result.rows[i].elements[i+1].duration.value;
-
-          }
-          console.log("URL" + url);
-          console.log("dist"+ dist);
-          console.log("time"+ time);
-          console.log("\n\n\n\n\n");
-          returnData([{dist:dist/1000,time:time/60}]);
+      for (var j = 0 ; j < 5 ;j++){
+        var command = requestify.get(url).then(function(response) {
+        //console.log(response.body);
+        return response.body;
+        });
+        callArray.push(command);
       }
-    );
-    //return [{dist:dist/1000,time:time/60}];
+
+    }
+  
+  //return "Hello";
+
+  //setTimeout(return "hello", 3000);
+
+  var finalp = promise.all(callArray);
+
+    return finalp.then(function(values){ 
+
+
+      var dist = 0;
+      var time = 0;
+
+      var out = JSON.parse(values[0]);
+
+      console.log("+!+!+!+!+!+!" + i + values);
+
+      for (var i in values){
+
+        var out = JSON.parse(values[i]);
+
+
+
+        
+        dist += out.rows[0].elements[0].distance.value;
+        time += out.rows[0].elements[0].duration.value;
+      }
+
+      //console.log("time here " + dist);
+      returnData([{dist:dist/1000,time:time/60}]);
+      //return "########";
+    }); 
   }
-};
+}

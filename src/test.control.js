@@ -35,14 +35,21 @@ var test = function(data) {
         subRoute.from = convertToPlace(value2.from);
         subRoute.to = convertToPlace(value2.to);
         subRoute.innerBusStops = value2.innerBusStops;
-        // distanceTime.find(value2.innerBusStops,function(location){
-        //   // console.log(stringify(value2.innerBusStops));
-        //   // console.log(+"test -- >",location);
-        //   // console.log("\n\n\n\n\n");
-        //   ubRoute.timeData = location;
-        //})
 
-        return subRoute;
+
+        distanceTime.find(value2.innerBusStops,function(location){
+           console.log(stringify(value2.innerBusStops));
+           console.log(+"test -- >",location);
+          // console.log("\n\n\n\n\n");
+          subRoute.timeData = location;
+
+        });
+        console.log(+"test1 -- >");
+
+        setTimeout(return subRoute, 3000);
+
+        console.log(+"test2 -- >");
+
     },
     convertToReadabelJson = function(value) {
         var returnArray = {};

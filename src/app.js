@@ -7,7 +7,7 @@ var path = require('path');
 
 app.use(function(req, res, next) {
     res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
-    res.header("Access-Control-Allow-Origin", "http://104.131.11.107");
+    res.header("Access-Control-Allow-Origin", "http://localhost");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
@@ -28,8 +28,8 @@ app.post('/api/users', function(req, res) {
     res.send(user_id + ' ' + token + ' ' + geo);
 });
 
-app.use('/tadHack', require('./test.control'));
+app.use('/upload', require('./test.control'));
 
 app.listen('8080', function(){
-    console.log('running on 8080...');
+    console.log('running on 8080 lol ...');
 });
